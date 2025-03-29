@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人中心 - Goings商城</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/user.css">
+    <script src="assets/js/cart/cartManager.js"></script>
+    <script src="assets/js/cart/cartCount.js"></script>
+    <style>
+        /* 直接在页面内覆盖样式 */
+        .user-page .main-content {
+            display: flex;
+            width: 100%;
+            max-width: 100%;
+            padding: 2rem;
+            gap: 20px;
+        }
+        
+        .user-sidebar {
+            width: 200px;
+            min-width: 200px;
+            flex-shrink: 0;
+        }
+        
+        .user-content {
+            flex: 1;
+            width: calc(100% - 220px);
+        }
+        
+        /* 头像样式 */
+        .avatar-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        
+        .avatar-wrapper {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            overflow: hidden;
+            cursor: pointer;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.16);
+        }
+        
+        .user-avatar {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 0.3s;
+        }
+        
+        .avatar-upload-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .avatar-wrapper:hover .avatar-upload-overlay {
+            opacity: 1;
+        }
+        
+        .avatar-wrapper:hover .user-avatar {
+            transform: scale(1.1);
+        }
+        
+        @media (max-width: 768px) {
+            .user-sidebar {
+                width: 100%;
+                min-width: 100%;
+            }
+            
+            .user-content {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body class="user-page">
+    <!-- 顶部导航栏 -->
+    <header class="navbar">
+        <div class="logo">
+            <h1><span class="logo-brand">Goings</span><span class="logo-text">商城</span></h1>
+        </div>
+        <nav class="nav-links">
+            <a href="index.html" class="nav-link">首页</a>
+            <a href="hot.html" class="nav-link">热销</a>
+            <a href="new.html" class="nav-link">新品</a>
+            <a href="sale.html" class="nav-link">优惠</a>
+        </nav>
+        <div class="user-welcome" id="user-welcome">
+            <div class="user-info user-info-special">欢迎你，<span id="header-username"></span></div>
+        </div>
+        <div class="cart">
+            <a href="cart.html" class="cart-link">
+                <span class="cart-icon">🛒</span>
+                <span class="cart-count">0</span>
+            </a>
+        </div>
+    </header>
+
+    <!-- 主要内容区域 -->
+    <main class="main-content">
+        <!-- 左侧菜单 -->
+        <aside class="user-sidebar">
+            <h2>个人中心</h2>
+            <ul class="user-menu" id="user-menu">
+                <li class="user-menu-item">
+                    <a class="user-menu-link active" data-section="my-info">我的信息</a>
+                </li>
+                <li class="user-menu-item">
+                    <a class="user-menu-link" data-section="my-orders">我的订单</a>
+                </li>
+                <li class="user-menu-item">
+                    <a class="user-menu-link" data-section="my-favorites">我的收藏</a>
+                </li>
+                <li class="user-menu-item">
+                    <a class="user-menu-link" data-section="my-address">收货地址</a>
+                </li>
+                <li class="user-menu-item">
+                    <a class="user-menu-link" data-section="change-password">修改密码</a>
+                </li>
+                <li class="user-menu-item">
+                    <button class="logout-button" id="logout-btn">退出登录</button>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- 右侧内容区域 -->
+        <section class="user-content" id="content-area">
+            <!-- 我的信息 -->
+            <div class="content-section active" id="my-info">
+                <h3>我的信息</h3>
+                <div class="user-info-section">
+                    <div class="avatar-container">
+                        <div class="avatar-wrapper">
+                            <img src="assets/images/avatar-placeholder.png" alt="用户头像" id="user-avatar" class="user-avatar">
+                            <div class="avatar-upload-overlay">
+                                <span>点击更换</span>
+                            </div>
+                        </div>
+                        <input type="file" id="avatar-upload" accept="image/*" style="display: none;">
+                    </div>
+                    <p class="user-welcome">欢迎你，<span class="username" id="welcome-username">用户</span></p>
+                    <div class="profile-card">
+                        <div class="profile-item">
+                            <div class="profile-label">用户名：</div>
+                            <div class="profile-value" id="profile-username">加载中...</div>
+                        </div>
+                        <div class="profile-item">
+                            <div class="profile-label">账号状态：</div>
+                            <div class="profile-value">正常</div>
+                        </div>
+                        <div class="profile-item">
+                            <div class="profile-label">注册时间：</div>
+                            <div class="profile-value">2023-10-01</div>
+                        </div>
+                        <div class="profile-item">
+                            <div class="profile-label">积分：</div>
+                            <div class="profile-value">520</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 我的订单 -->
+            <div class="content-section" id="my-orders">
+                <h3>我的订单</h3>
+                <div class="orders-container" id="orders-container">
+                    <p class="no-orders" id="no-orders-message">您暂时没有订单记录。</p>
+                </div>
+            </div>
+
+            <!-- 我的收藏 -->
+            <div class="content-section" id="my-favorites">
+                <h3>我的收藏</h3>
+                <div class="favorites-container" id="favorites-container">
+                    <!-- 收藏列表将由JavaScript动态生成 -->
+                    <p class="no-favorites" id="no-favorites-message" style="display: none;">您暂时没有收藏任何商品。</p>
+                </div>
+            </div>
+
+            <!-- 收货地址 -->
+            <div class="content-section" id="my-address">
+                <h3>收货地址</h3>
+                <div class="address-container">
+                    <div class="address-actions">
+                        <button class="btn btn-primary add-address-btn" id="add-address-btn">添加新地址</button>
+                    </div>
+                    <div class="address-list" id="address-list">
+                        <p class="no-address" id="no-address-message">您还没有添加收货地址。</p>
+                    </div>
+                </div>
+                
+                <!-- 添加/编辑地址弹窗 -->
+                <div class="address-modal" id="address-modal">
+                    <div class="address-modal-content">
+                        <div class="address-modal-header">
+                            <h4 id="address-modal-title">添加新地址</h4>
+                            <span class="address-modal-close">&times;</span>
+                        </div>
+                        <div class="address-modal-body">
+                            <form id="address-form">
+                                <input type="hidden" id="address-id" value="">
+                                <div class="form-group">
+                                    <label for="address-name">收货人姓名</label>
+                                    <input type="text" id="address-name" class="form-control" placeholder="请输入姓名" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="address-phone">联系电话</label>
+                                    <input type="tel" id="address-phone" class="form-control" placeholder="请输入手机号码" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="address-detail">详细地址</label>
+                                    <textarea id="address-detail" class="form-control" rows="3" placeholder="请输入详细地址" required></textarea>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" id="address-default" class="form-check-input">
+                                    <label for="address-default" class="form-check-label">设为默认地址</label>
+                                </div>
+                                <div class="form-actions">
+                                    <button type="button" class="btn btn-secondary address-cancel-btn">取消</button>
+                                    <button type="submit" class="btn btn-primary address-save-btn">保存</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 修改密码 -->
+            <div class="content-section" id="change-password">
+                <h3>修改密码</h3>
+                <div class="password-container">
+                    <form id="password-form">
+                        <div class="form-group">
+                            <label for="old-password">原密码</label>
+                            <input type="password" id="old-password" class="form-control" placeholder="请输入原密码" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="new-password">新密码</label>
+                            <input type="password" id="new-password" class="form-control" placeholder="请输入新密码" required>
+                            <small class="form-text">密码长度不少于6位，建议使用字母、数字和符号组合</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="confirm-password">确认密码</label>
+                            <input type="password" id="confirm-password" class="form-control" placeholder="请再次输入新密码" required>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary change-password-btn">确认修改</button>
+                        </div>
+                    </form>
+                    <div class="password-message" id="password-message"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 添加中间感谢语 -->
+    <div class="thanks-message">
+        <p>Thanks <span>Goings</span></p>
+    </div>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>关于我们</h3>
+                <p>公司简介</p>
+                <p>我们的使命</p>
+                <p>发展历程</p>
+            </div>
+            <div class="footer-section">
+                <h3>客户服务</h3>
+                <p>购物指南</p>
+                <p>配送方式</p>
+                <p>售后政策</p>
+                <p>支付方式</p>
+            </div>
+            <div class="footer-section">
+                <h3>联系我们</h3>
+                <p>客服热线: 400-123-4567</p>
+                <p>邮箱: service@shop.com</p>
+                <p>地址: 北京市朝阳区科技园</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Goings商城. 保留所有权利。</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 更新购物车数量
+            CartManager.updateCartCount();
+            
+            // 获取用户信息
+            const username = localStorage.getItem('username');
+            
+            // 检查用户是否已登录
+            if (!username) {
+                // 未登录时重定向到登录页面
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            // 更新用户名显示
+            const welcomeUsername = document.getElementById('welcome-username');
+            const profileUsername = document.getElementById('profile-username');
+            const headerUsername = document.getElementById('header-username');
+            
+            if (welcomeUsername) {
+                welcomeUsername.textContent = username;
+            }
+            
+            if (profileUsername) {
+                profileUsername.textContent = username;
+            }
+            
+            if (headerUsername) {
+                headerUsername.textContent = username;
+            }
+            
+            // ---------- 头像上传功能 ----------
+            const avatarWrapper = document.querySelector('.avatar-wrapper');
+            const avatarUpload = document.getElementById('avatar-upload');
+            const userAvatar = document.getElementById('user-avatar');
+            
+            // 从本地存储加载头像
+            function loadAvatar() {
+                const savedAvatar = localStorage.getItem(`${username}_avatar`);
+                if (savedAvatar) {
+                    userAvatar.src = savedAvatar;
+                }
+            }
+            
+            // 加载用户头像
+            loadAvatar();
+            
+            // 点击头像区域触发文件选择
+            if (avatarWrapper) {
+                avatarWrapper.addEventListener('click', function() {
+                    avatarUpload.click();
+                });
+            }
+            
+            // 处理文件上传
+            if (avatarUpload) {
+                avatarUpload.addEventListener('change', function() {
+                    if (this.files && this.files[0]) {
+                        const file = this.files[0];
+                        
+                        // 检查文件类型
+                        if (!file.type.startsWith('image/')) {
+                            alert('请选择图片文件');
+                            return;
+                        }
+                        
+                        // 检查文件大小 (限制为2MB)
+                        if (file.size > 2 * 1024 * 1024) {
+                            alert('图片大小不能超过2MB');
+                            return;
+                        }
+                        
+                        const reader = new FileReader();
+                        
+                        reader.onload = function(e) {
+                            // 更新头像显示
+                            userAvatar.src = e.target.result;
+                            
+                            // 保存到本地存储
+                            try {
+                                localStorage.setItem(`${username}_avatar`, e.target.result);
+                                console.log('头像已保存');
+                            } catch (error) {
+                                // 如果本地存储空间不足，可能会失败
+                                console.error('保存头像失败:', error);
+                                if (error.name === 'QuotaExceededError') {
+                                    alert('存储空间不足，无法保存头像。请尝试使用更小的图片。');
+                                }
+                            }
+                        };
+                        
+                        reader.onerror = function() {
+                            alert('读取文件失败，请重试');
+                        };
+                        
+                        // 读取文件为DataURL
+                        reader.readAsDataURL(file);
+                    }
+                });
+            }
+            
+            // 导航菜单交互
+            const menuLinks = document.querySelectorAll('.user-menu-link');
+            const contentSections = document.querySelectorAll('.content-section');
+            
+            menuLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    // 移除所有菜单项的活跃状态
+                    menuLinks.forEach(item => item.classList.remove('active'));
+                    
+                    // 为当前点击的菜单项添加活跃状态
+                    this.classList.add('active');
+                    
+                    // 获取目标内容区域的ID
+                    const targetSection = this.getAttribute('data-section');
+                    
+                    // 隐藏所有内容区域
+                    contentSections.forEach(section => {
+                        section.classList.remove('active');
+                    });
+                    
+                    // 显示目标内容区域
+                    const targetElement = document.getElementById(targetSection);
+                    if (targetElement) {
+                        targetElement.classList.add('active');
+                    }
+                });
+            });
+            
+            // ---------- 订单管理功能 ----------
+            // 确保订单初始为空
+            const ordersContainer = document.getElementById('orders-container');
+            
+            // 添加订单函数(未来可能会用到)
+            function addOrder(orderData) {
+                const noOrdersMessage = document.getElementById('no-orders-message');
+                if (noOrdersMessage) {
+                    noOrdersMessage.style.display = 'none';
+                }
+                
+                // 创建订单项
+                const orderItem = document.createElement('div');
+                orderItem.className = 'order-item';
+                orderItem.dataset.id = orderData.id;
+                
+                // 填充订单内容
+                orderItem.innerHTML = `
+                    <div class="order-header">
+                        <div class="order-id">订单号: ${orderData.id}</div>
+                        <div class="order-date">下单时间: ${orderData.date}</div>
+                        <div class="order-status ${orderData.statusClass}">${orderData.status}</div>
+                    </div>
+                    <div class="order-content">
+                        <div class="order-product">
+                            <a href="product.html?id=${orderData.productId}" class="product-link">
+                                <img src="${orderData.productImage}" alt="${orderData.productName}" class="order-product-img">
+                            </a>
+                            <div class="order-product-info">
+                                <a href="product.html?id=${orderData.productId}" class="product-link">
+                                    <div class="order-product-name">${orderData.productName}</div>
+                                </a>
+                                <div class="order-product-price">¥${orderData.productPrice.toFixed(2)}</div>
+                            </div>
+                        </div>
+                        <div class="order-actions">
+                            <button class="btn btn-primary order-detail-btn">查看订单详情</button>
+                            <button class="btn btn-danger order-delete-btn">删除订单</button>
+                        </div>
+                    </div>
+                `;
+                
+                // 添加到订单容器
+                ordersContainer.appendChild(orderItem);
+                
+                // 绑定事件
+                const detailBtn = orderItem.querySelector('.order-detail-btn');
+                const deleteBtn = orderItem.querySelector('.order-delete-btn');
+                
+                // 查看订单详情
+                detailBtn.addEventListener('click', function() {
+                    // 跳转到订单详情页
+                    window.location.href = `order-detail.html?orderId=${orderData.id}`;
+                });
+                
+                // 删除订单
+                deleteBtn.addEventListener('click', function() {
+                    if (confirm(`确定要删除订单 ${orderData.id} 吗？`)) {
+                        // 动画效果删除订单项
+                        orderItem.style.opacity = '0';
+                        orderItem.style.height = '0';
+                        orderItem.style.margin = '0';
+                        orderItem.style.padding = '0';
+                        orderItem.style.overflow = 'hidden';
+                        orderItem.style.transition = 'all 0.3s ease';
+                        
+                        setTimeout(() => {
+                            orderItem.remove();
+                            
+                            // 检查是否还有订单
+                            const orderItems = document.querySelectorAll('.order-item');
+                            if (orderItems.length === 0) {
+                                const noOrdersMessage = document.getElementById('no-orders-message');
+                                if (noOrdersMessage) {
+                                    noOrdersMessage.style.display = 'block';
+                                } else {
+                                    ordersContainer.innerHTML = '<p class="no-orders">您暂时没有订单记录。</p>';
+                                }
+                            }
+                        }, 300);
+                    }
+                });
+            }
+            
+            // ---------- 收藏商品功能 ----------
+            // 获取收藏夹列表区域
+            const favoritesContainer = document.getElementById('favorites-container');
+            const noFavoritesMessage = document.getElementById('no-favorites-message');
+            
+            // 获取收藏列表
+            function getFavorites() {
+                const favorites = localStorage.getItem('favorites');
+                return favorites ? JSON.parse(favorites) : [];
+            }
+            
+            // 显示收藏商品
+            function showFavorites() {
+                const favorites = getFavorites();
+                
+                if (favoritesContainer) {
+                    // 清空现有内容
+                    favoritesContainer.innerHTML = '';
+                    
+                    if (favorites.length === 0) {
+                        // 没有收藏商品，显示提示信息
+                        favoritesContainer.innerHTML = '<p class="no-favorites">您暂时没有收藏任何商品。</p>';
+                        return;
+                    }
+                    
+                    // 创建收藏商品列表
+                    favorites.forEach(favorite => {
+                        const favoriteItem = document.createElement('div');
+                        favoriteItem.className = 'favorite-item';
+                        favoriteItem.dataset.id = favorite.id;
+                        
+                        const imgSrc = favorite.image || 'assets/images/products/placeholder.jpg';
+                        const productPrice = typeof favorite.price === 'number' ? `¥${favorite.price.toFixed(2)}` : favorite.price;
+                        
+                        favoriteItem.innerHTML = `
+                            <div class="favorite-product">
+                                <a href="product.html?id=${favorite.id}" class="product-link">
+                                    <img src="${imgSrc}" alt="${favorite.name}" class="favorite-img">
+                                </a>
+                                <div class="favorite-info">
+                                    <a href="product.html?id=${favorite.id}" class="product-link">
+                                        <h4 class="favorite-name">${favorite.name}</h4>
+                                    </a>
+                                    <p class="favorite-price">${productPrice}</p>
+                                    <p class="favorite-desc">${favorite.description || '暂无描述'}</p>
+                                </div>
+                                <div class="favorite-actions">
+                                    <button class="btn btn-danger remove-favorite-btn" data-id="${favorite.id}">移除收藏</button>
+                                </div>
+                            </div>
+                        `;
+                        
+                        favoritesContainer.appendChild(favoriteItem);
+                    });
+                    
+                    // 绑定移除收藏事件
+                    document.querySelectorAll('.remove-favorite-btn').forEach(button => {
+                        button.addEventListener('click', function() {
+                            const productId = parseInt(this.getAttribute('data-id'));
+                            removeFavorite(productId);
+                        });
+                    });
+                }
+            }
+            
+            // 移除收藏
+            function removeFavorite(productId) {
+                const favorites = getFavorites();
+                const productToRemove = favorites.find(item => item.id === productId);
+                
+                if (productToRemove) {
+                    if (confirm(`确定要将 ${productToRemove.name} 从收藏中移除吗？`)) {
+                        // 从数据中移除
+                        const updatedFavorites = favorites.filter(item => item.id !== productId);
+                        localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
+                        
+                        // 从DOM中移除并添加动画效果
+                        const favoriteItem = document.querySelector(`.favorite-item[data-id="${productId}"]`);
+                        if (favoriteItem) {
+                            favoriteItem.style.opacity = '0';
+                            favoriteItem.style.transform = 'scale(0.8)';
+                            favoriteItem.style.transition = 'all 0.3s ease';
+                            
+                            setTimeout(() => {
+                                favoriteItem.remove();
+                                
+                                // 检查是否还有收藏商品
+                                if (updatedFavorites.length === 0) {
+                                    showFavorites(); // 重新显示空收藏夹提示
+                                }
+                            }, 300);
+                        }
+                    }
+                }
+            }
+            
+            // 初始化收藏夹
+            showFavorites();
+            
+            // ---------- 地址管理功能 ----------
+            const addAddressBtn = document.getElementById('add-address-btn');
+            const addressModal = document.getElementById('address-modal');
+            const addressModalClose = document.querySelector('.address-modal-close');
+            const addressCancelBtn = document.querySelector('.address-cancel-btn');
+            const addressForm = document.getElementById('address-form');
+            const addressModalTitle = document.getElementById('address-modal-title');
+            
+            // 模拟地址数据存储
+            let addressData = [];
+            
+            // 打开添加地址弹窗
+            addAddressBtn.addEventListener('click', function() {
+                addressModalTitle.textContent = '添加新地址';
+                addressForm.reset();
+                document.getElementById('address-id').value = '';
+                document.getElementById('address-default').checked = false;
+                addressModal.classList.add('show');
+            });
+            
+            // 关闭地址弹窗
+            function closeAddressModal() {
+                addressModal.classList.remove('show');
+            }
+            
+            addressModalClose.addEventListener('click', closeAddressModal);
+            addressCancelBtn.addEventListener('click', closeAddressModal);
+            
+            // 点击弹窗外部关闭
+            addressModal.addEventListener('click', function(e) {
+                if (e.target === addressModal) {
+                    closeAddressModal();
+                }
+            });
+            
+            // 编辑地址
+            document.querySelectorAll('.edit-address-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const addressItem = this.closest('.address-item');
+                    const addressId = parseInt(addressItem.getAttribute('data-id'));
+                    const address = addressData.find(addr => addr.id === addressId);
+                    
+                    if (address) {
+                        addressModalTitle.textContent = '编辑地址';
+                        document.getElementById('address-id').value = address.id;
+                        document.getElementById('address-name').value = address.name;
+                        document.getElementById('address-phone').value = address.phone;
+                        document.getElementById('address-detail').value = address.detail;
+                        document.getElementById('address-default').checked = address.isDefault;
+                        addressModal.classList.add('show');
+                    }
+                });
+            });
+            
+            // 删除地址
+            document.querySelectorAll('.delete-address-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const addressItem = this.closest('.address-item');
+                    const addressId = parseInt(addressItem.getAttribute('data-id'));
+                    const address = addressData.find(addr => addr.id === addressId);
+                    
+                    if (confirm(`确定要删除${address.name}的地址吗？`)) {
+                        // 从数据中删除
+                        addressData = addressData.filter(addr => addr.id !== addressId);
+                        
+                        // 从DOM中删除
+                        addressItem.style.opacity = '0';
+                        addressItem.style.height = '0';
+                        addressItem.style.margin = '0';
+                        addressItem.style.padding = '0';
+                        addressItem.style.overflow = 'hidden';
+                        addressItem.style.transition = 'all 0.3s ease';
+                        
+                        setTimeout(() => {
+                            addressItem.remove();
+                            
+                            // 检查是否还有地址
+                            const addressItems = document.querySelectorAll('.address-item');
+                            if (addressItems.length === 0) {
+                                const addressList = document.getElementById('address-list');
+                                addressList.innerHTML = '<p class="no-address">您还没有添加收货地址。</p>';
+                            }
+                        }, 300);
+                    }
+                });
+            });
+            
+            // 保存地址
+            addressForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const addressId = document.getElementById('address-id').value;
+                const addressName = document.getElementById('address-name').value;
+                const addressPhone = document.getElementById('address-phone').value;
+                const addressDetail = document.getElementById('address-detail').value;
+                const isDefault = document.getElementById('address-default').checked;
+                
+                if (!addressName || !addressPhone || !addressDetail) {
+                    alert('请填写完整的地址信息');
+                    return;
+                }
+                
+                // 处理设为默认地址的逻辑
+                if (isDefault) {
+                    addressData.forEach(addr => {
+                        addr.isDefault = false;
+                    });
+                }
+                
+                // 判断是新增还是编辑
+                if (addressId) {
+                    // 编辑现有地址
+                    const index = addressData.findIndex(addr => addr.id === parseInt(addressId));
+                    if (index !== -1) {
+                        addressData[index] = {
+                            id: parseInt(addressId),
+                            name: addressName,
+                            phone: addressPhone,
+                            detail: addressDetail,
+                            isDefault: isDefault
+                        };
+                    }
+                } else {
+                    // 添加新地址
+                    const newId = addressData.length > 0 ? Math.max(...addressData.map(addr => addr.id)) + 1 : 1;
+                    addressData.push({
+                        id: newId,
+                        name: addressName,
+                        phone: addressPhone,
+                        detail: addressDetail,
+                        isDefault: isDefault
+                    });
+                }
+                
+                // 重新渲染地址列表
+                renderAddressList();
+                closeAddressModal();
+            });
+            
+            // 渲染地址列表
+            function renderAddressList() {
+                const addressList = document.getElementById('address-list');
+                addressList.innerHTML = '';
+                
+                if (addressData.length === 0) {
+                    addressList.innerHTML = '<p class="no-address">您还没有添加收货地址。</p>';
+                    return;
+                }
+                
+                addressData.forEach(address => {
+                    const addressItem = document.createElement('div');
+                    addressItem.className = 'address-item';
+                    addressItem.setAttribute('data-id', address.id);
+                    
+                    addressItem.innerHTML = `
+                        <div class="address-info">
+                            <div class="address-header">
+                                <span class="address-name">${address.name}</span>
+                                <span class="address-phone">${address.phone}</span>
+                                ${address.isDefault ? '<span class="address-default">默认地址</span>' : ''}
+                            </div>
+                            <div class="address-detail">
+                                ${address.detail}
+                            </div>
+                        </div>
+                        <div class="address-options">
+                            <button class="btn btn-sm btn-primary edit-address-btn">编辑</button>
+                            <button class="btn btn-sm btn-danger delete-address-btn">删除</button>
+                        </div>
+                    `;
+                    
+                    addressList.appendChild(addressItem);
+                    
+                    // 为新添加的按钮绑定事件
+                    const editBtn = addressItem.querySelector('.edit-address-btn');
+                    const deleteBtn = addressItem.querySelector('.delete-address-btn');
+                    
+                    editBtn.addEventListener('click', function() {
+                        const addressId = parseInt(addressItem.getAttribute('data-id'));
+                        const address = addressData.find(addr => addr.id === addressId);
+                        
+                        if (address) {
+                            addressModalTitle.textContent = '编辑地址';
+                            document.getElementById('address-id').value = address.id;
+                            document.getElementById('address-name').value = address.name;
+                            document.getElementById('address-phone').value = address.phone;
+                            document.getElementById('address-detail').value = address.detail;
+                            document.getElementById('address-default').checked = address.isDefault;
+                            addressModal.classList.add('show');
+                        }
+                    });
+                    
+                    deleteBtn.addEventListener('click', function() {
+                        const addressId = parseInt(addressItem.getAttribute('data-id'));
+                        const address = addressData.find(addr => addr.id === addressId);
+                        
+                        if (confirm(`确定要删除${address.name}的地址吗？`)) {
+                            // 从数据中删除
+                            addressData = addressData.filter(addr => addr.id !== addressId);
+                            
+                            // 从DOM中删除
+                            addressItem.style.opacity = '0';
+                            addressItem.style.height = '0';
+                            addressItem.style.margin = '0';
+                            addressItem.style.padding = '0';
+                            addressItem.style.overflow = 'hidden';
+                            addressItem.style.transition = 'all 0.3s ease';
+                            
+                            setTimeout(() => {
+                                addressItem.remove();
+                                
+                                // 检查是否还有地址
+                                if (addressData.length === 0) {
+                                    addressList.innerHTML = '<p class="no-address">您还没有添加收货地址。</p>';
+                                }
+                            }, 300);
+                        }
+                    });
+                });
+            }
+            
+            // ---------- 修改密码功能 ----------
+            const passwordForm = document.getElementById('password-form');
+            const passwordMessage = document.getElementById('password-message');
+            
+            passwordForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const oldPassword = document.getElementById('old-password').value;
+                const newPassword = document.getElementById('new-password').value;
+                const confirmPassword = document.getElementById('confirm-password').value;
+                
+                // 简单验证
+                if (!oldPassword || !newPassword || !confirmPassword) {
+                    showPasswordMessage('请填写完整的密码信息', 'error');
+                    return;
+                }
+                
+                if (newPassword.length < 6) {
+                    showPasswordMessage('新密码长度不能少于6位', 'error');
+                    return;
+                }
+                
+                if (newPassword !== confirmPassword) {
+                    showPasswordMessage('两次输入的新密码不一致', 'error');
+                    return;
+                }
+                
+                // 模拟验证原密码
+                const storedPassword = '123456'; // 假设存储的密码
+                
+                if (oldPassword !== storedPassword) {
+                    showPasswordMessage('原密码不正确', 'error');
+                    return;
+                }
+                
+                // 模拟密码修改成功
+                showPasswordMessage('密码修改成功！', 'success');
+                passwordForm.reset();
+            });
+            
+            function showPasswordMessage(message, type) {
+                passwordMessage.textContent = message;
+                passwordMessage.className = 'password-message';
+                passwordMessage.classList.add(type);
+                
+                // 自动隐藏成功消息
+                if (type === 'success') {
+                    setTimeout(() => {
+                        passwordMessage.classList.remove('success');
+                    }, 3000);
+                }
+            }
+            
+            // 退出登录功能
+            const logoutBtn = document.getElementById('logout-btn');
+            
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', function() {
+                    // 显示确认对话框
+                    if (confirm('确定要退出登录吗？')) {
+                        // 清除所有与用户相关的本地存储数据
+                        localStorage.removeItem('username');
+                        localStorage.removeItem('userId');
+                        localStorage.removeItem('userToken');
+                        localStorage.removeItem('lastLogin');
+                        
+                        // 清除购物车数据（如果希望退出时清空购物车）
+                        // 如果不希望清空购物车，可以注释掉这两行
+                        localStorage.removeItem('cart');
+                        
+                        // 如果使用了CartManager，通知购物车已清空
+                        if (typeof CartManager !== 'undefined') {
+                            CartManager.clearCart();
+                        }
+                        
+                        // 显示退出成功提示
+                        alert('您已成功退出登录');
+                        
+                        // 跳转到登录页面
+                        window.location.href = 'login.html';
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html> 

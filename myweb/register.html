@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>注册 - Goings商城</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body class="register-page-body">
+    <!-- 顶部导航栏 -->
+    <header class="navbar">
+        <div class="logo">
+            <h1><span class="logo-brand">Goings</span><span class="logo-text">商城</span></h1>
+        </div>
+        <nav class="nav-links">
+            <a href="index.html" class="nav-link">首页</a>
+            <a href="hot.html" class="nav-link">热销</a>
+            <a href="new.html" class="nav-link">新品</a>
+            <a href="sale.html" class="nav-link">优惠</a>
+        </nav>
+        <div class="cart">
+            <a href="cart.html" class="cart-link">
+                <span class="cart-icon">🛒</span>
+                <span class="cart-count">0</span>
+            </a>
+        </div>
+        <div class="user-welcome" id="user-welcome">
+            <a href="login.html" class="login-link" id="login-link">登录</a>
+        </div>
+    </header>
+
+    <!-- 主要内容区域 -->
+    <main class="main-content">
+        <div class="register-container">
+            <div class="store-welcome">Welcome Goings Store</div>
+            <div class="register-form">
+                <h2>用户注册</h2>
+                <div class="form-groups-container">
+                    <div class="form-group">
+                        <label for="username">用户名</label>
+                        <input type="text" id="username" name="username" placeholder="请设置您的用户名" required>
+                        <span class="error-text" id="username-error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">电子邮箱</label>
+                        <input type="email" id="email" name="email" placeholder="请输入您的电子邮箱" required>
+                        <span class="error-text" id="email-error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="backup-email">辅助邮箱 (用于找回密码)</label>
+                        <input type="email" id="backup-email" name="backup-email" placeholder="请输入辅助邮箱地址">
+                        <span class="error-text" id="backup-email-error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">密码</label>
+                        <input type="password" id="password" name="password" placeholder="请设置您的密码" required>
+                        <span class="error-text" id="password-error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirm-password">确认密码</label>
+                        <input type="password" id="confirm-password" name="confirm-password" placeholder="请再次输入密码" required>
+                        <span class="error-text" id="confirm-password-error"></span>
+                    </div>
+                </div>
+                <button type="button" id="register-btn" class="register-btn">注册</button>
+                <p class="register-message" id="register-message"></p>
+                <p class="login-guide">已有账号？<a href="login.html" class="login-guide-link">去登录</a></p>
+            </div>
+        </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>关于我们</h3>
+                <p>公司简介</p>
+                <p>我们的使命</p>
+                <p>发展历程</p>
+            </div>
+            <div class="footer-section">
+                <h3>客户服务</h3>
+                <p>购物指南</p>
+                <p>配送方式</p>
+                <p>售后政策</p>
+                <p>支付方式</p>
+            </div>
+            <div class="footer-section">
+                <h3>联系我们</h3>
+                <p>客服热线: 400-123-4567</p>
+                <p>邮箱: service@shop.com</p>
+                <p>地址: 北京市朝阳区科技园</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Goings商城. 保留所有权利。</p>
+        </div>
+    </footer>
+
+    <script>
+        /**
+         * 注册功能模块
+         */
+        const RegisterManager = {
+            // DOM元素
+            elements: {
+                usernameInput: null,
+                emailInput: null,
+                backupEmailInput: null,
+                passwordInput: null,
+                confirmPasswordInput: null,
+                registerBtn: null,
+                registerMessage: null,
+                errorElements: {
+                    username: null,
+                    email: null,
+                    backupEmail: null,
+                    password: null,
+                    confirmPassword: null
+                }
+            },
+            
+            // 初始化
+            init: function() {
+                // 获取DOM元素
+                this.elements.usernameInput = document.getElementById('username');
+                this.elements.emailInput = document.getElementById('email');
+                this.elements.backupEmailInput = document.getElementById('backup-email');
+                this.elements.passwordInput = document.getElementById('password');
+                this.elements.confirmPasswordInput = document.getElementById('confirm-password');
+                this.elements.registerBtn = document.getElementById('register-btn');
+                this.elements.registerMessage = document.getElementById('register-message');
+                
+                this.elements.errorElements.username = document.getElementById('username-error');
+                this.elements.errorElements.email = document.getElementById('email-error');
+                this.elements.errorElements.backupEmail = document.getElementById('backup-email-error');
+                this.elements.errorElements.password = document.getElementById('password-error');
+                this.elements.errorElements.confirmPassword = document.getElementById('confirm-password-error');
+                
+                // 绑定事件
+                this.bindEvents();
+                
+                // 聚焦用户名输入框
+                this.elements.usernameInput.focus();
+            },
+            
+            // 绑定事件
+            bindEvents: function() {
+                // 注册按钮点击事件
+                this.elements.registerBtn.addEventListener('click', this.handleRegister.bind(this));
+                
+                // 键盘回车事件
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter') {
+                        this.handleRegister();
+                    }
+                });
+                
+                // 输入框事件监听
+                this.elements.usernameInput.addEventListener('input', () => {
+                    this.validateField('username');
+                });
+                
+                this.elements.emailInput.addEventListener('input', () => {
+                    this.validateField('email');
+                });
+                
+                this.elements.backupEmailInput.addEventListener('input', () => {
+                    this.validateField('backupEmail');
+                });
+                
+                this.elements.passwordInput.addEventListener('input', () => {
+                    this.validateField('password');
+                    if (this.elements.confirmPasswordInput.value.trim().length > 0) {
+                        this.validateField('confirmPassword');
+                    }
+                });
+                
+                this.elements.confirmPasswordInput.addEventListener('input', () => {
+                    this.validateField('confirmPassword');
+                });
+            },
+            
+            // 清除所有错误信息
+            clearAllErrors: function() {
+                this.elements.registerMessage.textContent = '';
+                this.clearFieldError('username');
+                this.clearFieldError('email');
+                this.clearFieldError('backupEmail');
+                this.clearFieldError('password');
+                this.clearFieldError('confirmPassword');
+            },
+            
+            // 清除特定字段的错误
+            clearFieldError: function(fieldName) {
+                const inputElement = this.getInputElement(fieldName);
+                const errorElement = this.elements.errorElements[fieldName];
+                
+                if (inputElement) {
+                    inputElement.classList.remove('input-error');
+                }
+                if (errorElement) {
+                    errorElement.textContent = '';
+                }
+            },
+            
+            // 获取输入元素
+            getInputElement: function(fieldName) {
+                switch (fieldName) {
+                    case 'username': return this.elements.usernameInput;
+                    case 'email': return this.elements.emailInput;
+                    case 'backupEmail': return this.elements.backupEmailInput;
+                    case 'password': return this.elements.passwordInput;
+                    case 'confirmPassword': return this.elements.confirmPasswordInput;
+                    default: return null;
+                }
+            },
+            
+            // 显示字段错误
+            showFieldError: function(fieldName, message) {
+                const inputElement = this.getInputElement(fieldName);
+                const errorElement = this.elements.errorElements[fieldName];
+                
+                if (inputElement) {
+                    inputElement.classList.add('input-error');
+                }
+                if (errorElement) {
+                    errorElement.textContent = message;
+                }
+            },
+            
+            // 验证单个字段
+            validateField: function(fieldName) {
+                this.clearFieldError(fieldName);
+                
+                const username = this.elements.usernameInput.value.trim();
+                const email = this.elements.emailInput.value.trim();
+                const backupEmail = this.elements.backupEmailInput.value.trim();
+                const password = this.elements.passwordInput.value;
+                const confirmPassword = this.elements.confirmPasswordInput.value;
+                
+                switch (fieldName) {
+                    case 'username':
+                        if (username === '') {
+                            this.showFieldError('username', '请输入用户名');
+                            return false;
+                        }
+                        if (username.length < 3) {
+                            this.showFieldError('username', '用户名长度不能少于3个字符');
+                            return false;
+                        }
+                        break;
+                        
+                    case 'email':
+                        if (email === '') {
+                            this.showFieldError('email', '请输入电子邮箱');
+                            return false;
+                        }
+                        if (!this.validateEmail(email)) {
+                            this.showFieldError('email', '请输入有效的电子邮箱地址');
+                            return false;
+                        }
+                        break;
+                        
+                    case 'backupEmail':
+                        if (backupEmail !== '' && !this.validateEmail(backupEmail)) {
+                            this.showFieldError('backupEmail', '请输入有效的辅助邮箱地址');
+                            return false;
+                        }
+                        if (backupEmail === email && backupEmail !== '') {
+                            this.showFieldError('backupEmail', '辅助邮箱不能与主邮箱相同');
+                            return false;
+                        }
+                        break;
+                        
+                    case 'password':
+                        if (password === '') {
+                            this.showFieldError('password', '请输入密码');
+                            return false;
+                        }
+                        if (password.length < 6) {
+                            this.showFieldError('password', '密码长度不能少于6个字符');
+                            return false;
+                        }
+                        break;
+                        
+                    case 'confirmPassword':
+                        if (confirmPassword === '') {
+                            this.showFieldError('confirmPassword', '请确认密码');
+                            return false;
+                        }
+                        if (password !== confirmPassword) {
+                            this.showFieldError('confirmPassword', '两次输入的密码不一致');
+                            return false;
+                        }
+                        break;
+                }
+                
+                return true;
+            },
+            
+            // 验证表单
+            validateForm: function() {
+                let isValid = true;
+                
+                // 验证每个字段
+                if (!this.validateField('username')) {
+                    isValid = false;
+                }
+                
+                if (!this.validateField('email')) {
+                    isValid = false;
+                }
+                
+                if (!this.validateField('backupEmail')) {
+                    isValid = false;
+                }
+                
+                if (!this.validateField('password')) {
+                    isValid = false;
+                }
+                
+                if (!this.validateField('confirmPassword')) {
+                    isValid = false;
+                }
+                
+                return isValid;
+            },
+            
+            // 验证邮箱
+            validateEmail: function(email) {
+                const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return re.test(email);
+            },
+            
+            // 显示错误信息
+            showError: function(message) {
+                this.elements.registerMessage.textContent = message;
+                this.elements.registerMessage.style.color = '#e74c3c';
+            },
+            
+            // 显示成功信息
+            showSuccess: function(message) {
+                this.elements.registerMessage.textContent = message;
+                this.elements.registerMessage.style.color = '#2ecc71';
+            },
+            
+            // 处理注册
+            handleRegister: function() {
+                // 清除全局错误信息
+                this.elements.registerMessage.textContent = '';
+                
+                // 验证表单
+                if (!this.validateForm()) {
+                    return;
+                }
+                
+                const username = this.elements.usernameInput.value.trim();
+                const email = this.elements.emailInput.value.trim();
+                const backupEmail = this.elements.backupEmailInput.value.trim();
+                const password = this.elements.passwordInput.value;
+                
+                // 设置按钮为加载状态
+                const originalBtnText = this.elements.registerBtn.textContent;
+                this.elements.registerBtn.textContent = '注册中...';
+                this.elements.registerBtn.classList.add('btn-loading');
+                this.elements.registerBtn.disabled = true;
+                
+                // 模拟注册请求
+                this.mockRegisterRequest(username, email, backupEmail, password)
+                    .then(response => {
+                        // 保存用户信息到本地存储（模拟）
+                        localStorage.setItem(username, JSON.stringify({
+                            email: email,
+                            backupEmail: backupEmail,
+                            registerDate: new Date().toISOString()
+                        }));
+                        
+                        // 显示成功信息
+                        this.showSuccess('注册成功！即将跳转到登录页面...');
+                        
+                        // 2秒后跳转到登录页
+                        setTimeout(() => {
+                            window.location.href = 'login.html?registered=true';
+                        }, 2000);
+                    })
+                    .catch(error => {
+                        this.showError(error.message);
+                        
+                        // 根据错误类型添加相应的错误样式
+                        if (error.field) {
+                            this.showFieldError(error.field, error.message);
+                        }
+                    })
+                    .finally(() => {
+                        // 恢复按钮状态
+                        setTimeout(() => {
+                            this.elements.registerBtn.textContent = originalBtnText;
+                            this.elements.registerBtn.classList.remove('btn-loading');
+                            this.elements.registerBtn.disabled = false;
+                        }, 1000);
+                    });
+            },
+            
+            // 模拟注册请求
+            mockRegisterRequest: function(username, email, backupEmail, password) {
+                return new Promise((resolve, reject) => {
+                    // 模拟网络延迟
+                    setTimeout(() => {
+                        // 模拟校验逻辑
+                        
+                        // 检查用户名是否已被注册
+                        if (localStorage.getItem(username) !== null && username !== 'admin') {
+                            reject({
+                                message: '该用户名已被注册',
+                                field: 'username'
+                            });
+                            return;
+                        }
+                        
+                        // 检查邮箱是否已被使用（模拟）
+                        const isEmailUsed = Object.keys(localStorage).some(key => {
+                            try {
+                                const userData = JSON.parse(localStorage.getItem(key));
+                                return userData && userData.email === email;
+                            } catch (e) {
+                                return false;
+                            }
+                        });
+                        
+                        if (isEmailUsed && email !== 'admin@example.com') {
+                            reject({
+                                message: '该邮箱已被使用',
+                                field: 'email'
+                            });
+                            return;
+                        }
+                        
+                        // 模拟注册成功
+                        resolve({ success: true, message: '注册成功' });
+                    }, 1500);
+                });
+            }
+        };
+        
+        // 页面加载完成后初始化注册模块
+        document.addEventListener('DOMContentLoaded', function() {
+            RegisterManager.init();
+        });
+    </script>
+</body>
+</html> 

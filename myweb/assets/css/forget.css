@@ -1,0 +1,154 @@
+/* 忘记密码页面专用样式 */
+
+/* 重写登录容器样式，使忘记密码页面的框更宽更短 */
+.forgot-password-page .login-container {
+    width: 650px; /* 进一步增加容器宽度，使框左右更宽 */
+}
+
+.forgot-password-page .login-form {
+    padding: 15px 55px; /* 进一步减少上下内边距，增加左右内边距 */
+    min-height: 380px; /* 进一步减小最小高度，使框更短 */
+}
+
+/* 调整步骤指示器的位置，适应更大的容器 */
+.forgot-password-page .forgot-steps {
+    margin: 0 auto 20px; /* 进一步减少底部间距 */
+    width: 90%; /* 宽度占容器的90%，留出两边空间 */
+}
+
+/* "返回登录"链接容器样式 */
+.return-login-container {
+    text-align: center;
+    margin: 10px auto 20px;
+    max-width: 650px;
+}
+
+.return-login-guide {
+    text-align: center;
+    font-size: 0.8rem;
+    color: #999;
+    margin: 0;
+    padding: 0;
+}
+
+.return-login-guide a.return-login-link {
+    color: #999;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.return-login-guide a.return-login-link:hover {
+    color: #3498db;
+    text-decoration: underline;
+}
+
+/* 步骤指示器整体布局 */
+.forgot-steps {
+    margin-bottom: 30px; /* 底部间距 */
+    display: flex; /* 弹性布局 */
+    justify-content: space-between; /* 三个步骤均匀分布 */
+}
+
+/* 单个步骤的样式 */
+.step {
+    display: flex;
+    flex-direction: column; /* 垂直排列 */
+    align-items: center; /* 水平居中 */
+    width: 30%; /* 每个步骤占30%宽度 */
+}
+
+/* 步骤数字圆圈样式 */
+.step-number {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%; /* 圆形 */
+    background-color: #3498db; /* 蓝色背景 */
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center; /* 数字居中 */
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+/* 步骤文字样式 */
+.step-text {
+    text-align: center;
+    font-size: 14px;
+    color: #666; /* 灰色文字 */
+}
+
+/* 当前激活步骤的样式 */
+.step.active .step-number {
+    background-color: #2ecc71; /* 绿色背景 */
+}
+
+.step.active .step-text {
+    color: #2ecc71; /* 绿色文字 */
+    font-weight: bold;
+}
+
+/* 表单容器中的步骤表单显示控制 */
+.form-container > div {
+    display: none; /* 默认隐藏所有步骤 */
+}
+
+.form-container > div.active {
+    display: block; /* 显示当前激活的步骤 */
+}
+
+/* 步骤导航按钮容器 */
+.step-navigation {
+    margin-top: 25px;
+    display: flex;
+    justify-content: space-between; /* 按钮左右分布 */
+}
+
+/* 导航按钮通用样式 */
+.back-btn, .next-btn, .submit-btn, .reset-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease; /* 过渡动画 */
+}
+
+/* 返回按钮样式 */
+.back-btn {
+    background-color: #f1f1f1; /* 浅灰色背景 */
+    color: #333;
+}
+
+/* 下一步、提交和重置按钮样式 */
+.next-btn, .submit-btn, .reset-btn {
+    background-color: #3498db; /* 蓝色背景 */
+    color: white;
+    width: 100%; /* 占满容器宽度 */
+}
+
+/* 返回按钮悬停效果 */
+.back-btn:hover {
+    background-color: #e1e1e1; /* 深灰色背景 */
+}
+
+/* 其他按钮悬停效果 */
+.next-btn:hover, .submit-btn:hover, .reset-btn:hover {
+    background-color: #2980b9; /* 深蓝色背景 */
+    transform: translateY(-2px); /* 轻微上浮效果 */
+}
+
+/* 结果消息样式 */
+.result-message {
+    text-align: center;
+    padding: 20px;
+    font-size: 16px;
+    color: #666;
+}
+
+/* 成功图标样式 */
+.success-icon {
+    font-size: 50px;
+    color: #2ecc71; /* 绿色 */
+    margin-bottom: 15px;
+} 

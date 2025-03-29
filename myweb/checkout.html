@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>结算 - Goings商城</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <script src="assets/js/cart/cartManager.js"></script>
+    <script src="assets/js/cart/cartCount.js"></script>
+    <script src="assets/js/product/products.js"></script>
+    <script src="assets/js/common/script.js"></script>
+    <style>
+        /* 结算页面样式 */
+        .checkout-page {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+        
+        .checkout-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+        
+        .checkout-left {
+            flex: 2;
+            min-width: 300px;
+        }
+        
+        .checkout-right {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .checkout-section {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .checkout-section h2 {
+            margin-top: 0;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            color: #333;
+        }
+        
+        /* 商品清单样式 */
+        .checkout-items {
+            margin-bottom: 20px;
+        }
+        
+        .checkout-item {
+            display: flex;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .checkout-item-image {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 4px;
+            margin-right: 15px;
+        }
+        
+        .checkout-item-details {
+            flex: 1;
+        }
+        
+        .checkout-item-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .checkout-item-price {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .checkout-item-quantity {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .checkout-item-subtotal {
+            font-weight: bold;
+            color: #e74c3c;
+        }
+        
+        .checkout-summary {
+            padding: 15px 0;
+            font-size: 16px;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .checkout-total {
+            font-size: 20px;
+            font-weight: bold;
+            color: #e74c3c;
+            padding: 15px 0;
+            border-top: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        /* 表单样式 */
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        
+        .form-control:focus {
+            border-color: #3498db;
+            outline: none;
+            box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+        }
+        
+        /* 支付方式样式 */
+        .payment-options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .payment-option {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .payment-option:hover {
+            border-color: #3498db;
+            background-color: #f8f9fa;
+        }
+        
+        .payment-option.selected {
+            border-color: #3498db;
+            background-color: #ebf5fb;
+        }
+        
+        .payment-option input[type="radio"] {
+            margin-right: 10px;
+        }
+        
+        .payment-option label {
+            cursor: pointer;
+            flex: 1;
+        }
+        
+        /* 提交按钮样式 */
+        .submit-order-btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 20px;
+        }
+        
+        .submit-order-btn:hover {
+            background-color: #c0392b;
+        }
+        
+        /* 响应式调整 */
+        @media (max-width: 768px) {
+            .checkout-container {
+                flex-direction: column;
+            }
+            
+            .checkout-left, .checkout-right {
+                width: 100%;
+            }
+        }
+        
+        /* 订单完成页面样式 */
+        .order-success {
+            text-align: center;
+            padding: 50px 20px;
+        }
+        
+        .order-success h2 {
+            color: #2ecc71;
+            margin-bottom: 20px;
+        }
+        
+        .order-success p {
+            color: #666;
+            margin-bottom: 30px;
+        }
+        
+        .back-to-shop {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        
+        .back-to-shop:hover {
+            background-color: #2980b9;
+        }
+        
+        /* 必填字段标记 */
+        .required:after {
+            content: " *";
+            color: #e74c3c;
+        }
+        
+        /* 自动调整大小的文本框 */
+        .auto-resize {
+            min-height: 80px; /* 初始最小高度 */
+            overflow-y: hidden; /* 隐藏垂直滚动条 */
+            resize: none; /* 禁用手动调整大小 */
+            transition: height 0.2s ease; /* 平滑过渡效果 */
+        }
+        
+        /* 详细地址文本框样式 */
+        #recipient-address.auto-resize {
+            min-height: 50px; /* 更小的初始高度 */
+        }
+    </style>
+</head>
+<body>
+    <!-- 顶部导航栏 -->
+    <header class="navbar">
+        <div class="logo">
+            <h1><span class="logo-brand">Goings</span><span class="logo-text">商城</span></h1>
+        </div>
+        <nav class="nav-links">
+            <a href="index.html" class="nav-link">首页</a>
+            <a href="hot.html" class="nav-link">热销</a>
+            <a href="new.html" class="nav-link">新品</a>
+            <a href="sale.html" class="nav-link">优惠</a>
+        </nav>
+        <div class="cart">
+            <a href="cart.html" class="cart-link">
+                <span class="cart-icon">🛒</span>
+                <span class="cart-count">0</span>
+            </a>
+        </div>
+        <div class="user-welcome" id="user-welcome">
+            <a href="login.html" class="login-link" id="login-link">登录</a>
+            <div class="user-avatar-container" id="user-avatar-container" style="display: none;">
+                <a href="user.html" class="user-avatar-link">
+                    <img src="assets/images/avatar-placeholder.png" alt="用户头像" id="nav-user-avatar" class="user-avatar">
+                    <span class="user-name" id="nav-username">用户</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- 结算页面内容 -->
+    <main class="checkout-page">
+        <h1>订单结算</h1>
+        
+        <div id="checkout-content">
+            <div class="checkout-container">
+                <!-- 左侧：商品清单和收货信息 -->
+                <div class="checkout-left">
+                    <!-- 商品清单 -->
+                    <div class="checkout-section">
+                        <h2>商品清单</h2>
+                        <div id="checkout-items" class="checkout-items">
+                            <!-- 商品列表将通过JavaScript动态加载 -->
+                        </div>
+                        <div class="checkout-summary">
+                            <span>商品数量：</span>
+                            <span id="checkout-items-count">0件</span>
+                        </div>
+                        <div class="checkout-total">
+                            <span>合计：</span>
+                            <span id="checkout-total-price">¥0.00</span>
+                        </div>
+                    </div>
+                    
+                    <!-- 收货信息 -->
+                    <div class="checkout-section">
+                        <h2>收货信息</h2>
+                        <form id="shipping-form">
+                            <div class="form-group">
+                                <label for="recipient-name" class="required">收货人姓名</label>
+                                <input type="text" id="recipient-name" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="recipient-phone" class="required">联系电话</label>
+                                <input type="tel" id="recipient-phone" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="recipient-address" class="required">详细地址</label>
+                                <textarea id="recipient-address" class="form-control auto-resize" rows="2" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="recipient-note">订单备注（可选）</label>
+                                <textarea id="recipient-note" class="form-control auto-resize" rows="3"></textarea>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+                <!-- 右侧：支付方式和提交订单 -->
+                <div class="checkout-right">
+                    <!-- 支付方式 -->
+                    <div class="checkout-section">
+                        <h2>支付方式</h2>
+                        <div class="payment-options">
+                            <div class="payment-option selected">
+                                <input type="radio" id="payment-alipay" name="payment-method" value="alipay" checked>
+                                <label for="payment-alipay">支付宝</label>
+                            </div>
+                            <div class="payment-option">
+                                <input type="radio" id="payment-wechat" name="payment-method" value="wechat">
+                                <label for="payment-wechat">微信支付</label>
+                            </div>
+                            <div class="payment-option">
+                                <input type="radio" id="payment-card" name="payment-method" value="card">
+                                <label for="payment-card">银行卡</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 提交订单 -->
+                    <button id="submit-order-btn" class="submit-order-btn">提交订单</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 订单成功页面（默认隐藏） -->
+        <div id="order-success" class="order-success" style="display: none;">
+            <h2>订单已提交！</h2>
+            <p>感谢您的购买，我们将尽快为您发货。</p>
+            <a href="index.html" class="back-to-shop">返回商城</a>
+        </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>关于我们</h3>
+                <p>公司简介</p>
+                <p>我们的使命</p>
+                <p>发展历程</p>
+            </div>
+            <div class="footer-section">
+                <h3>客户服务</h3>
+                <p>购物指南</p>
+                <p>配送方式</p>
+                <p>售后政策</p>
+                <p>支付方式</p>
+            </div>
+            <div class="footer-section">
+                <h3>联系我们</h3>
+                <p>客服热线: 400-123-4567</p>
+                <p>邮箱: service@shop.com</p>
+                <p>地址: 北京市朝阳区科技园</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Goings商城. 保留所有权利。</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript 文件 -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // 用户登录状态在通用脚本中处理
+            
+            // 更新购物车数量显示
+            CartManager.updateCartCount();
+            
+            // 获取购物车商品
+            const cartItems = CartManager.getItems();
+            
+            // 如果购物车为空，跳转回购物车页面
+            if (!cartItems || cartItems.length === 0) {
+                alert('购物车为空，请先添加商品！');
+                window.location.href = 'cart.html';
+                return;
+            }
+            
+            // 渲染商品清单
+            renderCheckoutItems(cartItems);
+            
+            // 绑定支付方式选择事件
+            setupPaymentOptions();
+            
+            // 绑定提交订单按钮事件
+            document.getElementById('submit-order-btn').addEventListener('click', submitOrder);
+            
+            // 设置文本框自动调整大小
+            setupAutoResizeTextarea();
+        });
+        
+        // 设置文本框自动调整大小
+        function setupAutoResizeTextarea() {
+            const textareas = document.querySelectorAll('.auto-resize');
+            
+            // 初始化文本框高度
+            function resetHeight(textarea) {
+                textarea.style.height = 'auto';
+                textarea.style.height = textarea.scrollHeight + 'px';
+            }
+            
+            // 为每个文本框添加事件监听
+            textareas.forEach(textarea => {
+                // 在输入时自动调整高度
+                textarea.addEventListener('input', function() {
+                    resetHeight(this);
+                });
+                
+                // 在页面加载时初始化高度
+                resetHeight(textarea);
+            });
+        }
+        
+        // 渲染结算商品列表
+        function renderCheckoutItems(items) {
+            const checkoutItemsContainer = document.getElementById('checkout-items');
+            const itemsCountElement = document.getElementById('checkout-items-count');
+            const totalPriceElement = document.getElementById('checkout-total-price');
+            
+            // 清空容器
+            checkoutItemsContainer.innerHTML = '';
+            
+            // 计算总数量和总价
+            let totalQuantity = 0;
+            let totalPrice = 0;
+            
+            // 遍历商品并添加到列表
+            items.forEach(item => {
+                const subtotal = item.price * item.quantity;
+                totalQuantity += item.quantity;
+                totalPrice += subtotal;
+                
+                const itemElement = document.createElement('div');
+                itemElement.className = 'checkout-item';
+                itemElement.innerHTML = `
+                    <img src="${item.image}" alt="${item.name}" class="checkout-item-image">
+                    <div class="checkout-item-details">
+                        <div class="checkout-item-title">${item.name}</div>
+                        <div class="checkout-item-price">单价：¥${item.price.toFixed(2)}</div>
+                        <div class="checkout-item-quantity">数量：${item.quantity}</div>
+                    </div>
+                    <div class="checkout-item-subtotal">¥${subtotal.toFixed(2)}</div>
+                `;
+                
+                checkoutItemsContainer.appendChild(itemElement);
+            });
+            
+            // 更新总数量和总价
+            itemsCountElement.textContent = `${totalQuantity}件`;
+            totalPriceElement.textContent = `¥${totalPrice.toFixed(2)}`;
+        }
+        
+        // 设置支付方式选择
+        function setupPaymentOptions() {
+            const paymentOptions = document.querySelectorAll('.payment-option');
+            
+            paymentOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    // 移除所有选中状态
+                    paymentOptions.forEach(opt => opt.classList.remove('selected'));
+                    
+                    // 添加选中状态
+                    this.classList.add('selected');
+                    
+                    // 选中对应的单选框
+                    const radio = this.querySelector('input[type="radio"]');
+                    radio.checked = true;
+                });
+            });
+        }
+        
+        // 提交订单
+        function submitOrder() {
+            // 验证表单
+            const nameInput = document.getElementById('recipient-name');
+            const phoneInput = document.getElementById('recipient-phone');
+            const addressInput = document.getElementById('recipient-address');
+            
+            if (!nameInput.value.trim()) {
+                alert('请填写收货人姓名');
+                nameInput.focus();
+                return;
+            }
+            
+            if (!phoneInput.value.trim()) {
+                alert('请填写联系电话');
+                phoneInput.focus();
+                return;
+            }
+            
+            if (!addressInput.value.trim()) {
+                alert('请填写详细地址');
+                addressInput.focus();
+                return;
+            }
+            
+            // 获取选中的支付方式
+            const selectedPayment = document.querySelector('input[name="payment-method"]:checked').value;
+            
+            // 创建订单对象（实际项目中可能需要发送到服务器）
+            const order = {
+                items: CartManager.getItems(),
+                totalPrice: calculateTotalPrice(),
+                recipient: {
+                    name: nameInput.value.trim(),
+                    phone: phoneInput.value.trim(),
+                    address: addressInput.value.trim(),
+                    note: document.getElementById('recipient-note').value.trim()
+                },
+                paymentMethod: selectedPayment,
+                orderDate: new Date().toISOString()
+            };
+            
+            // 显示订单已提交
+            document.getElementById('checkout-content').style.display = 'none';
+            document.getElementById('order-success').style.display = 'block';
+            
+            // 清空购物车
+            CartManager.clearCart();
+            CartManager.updateCartCount();
+            
+            // 可以在这里添加代码将订单数据发送到服务器
+            console.log('订单已提交:', order);
+            
+            // 5秒后跳转回首页
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 5000);
+        }
+        
+        // 计算总价
+        function calculateTotalPrice() {
+            const items = CartManager.getItems();
+            return items.reduce((total, item) => total + (item.price * item.quantity), 0);
+        }
+    </script>
+</body>
+</html>

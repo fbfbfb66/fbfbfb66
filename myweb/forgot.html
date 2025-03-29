@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>忘记密码 - Goings商城</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/forget.css">
+</head>
+<body class="login-page-body forgot-password-page">
+    <!-- 顶部导航栏 -->
+    <header class="navbar">
+        <div class="logo">
+            <h1><span class="logo-brand">Goings</span><span class="logo-text">商城</span></h1>
+        </div>
+        <nav class="nav-links">
+            <a href="index.html" class="nav-link">首页</a>
+            <a href="hot.html" class="nav-link">热销</a>
+            <a href="new.html" class="nav-link">新品</a>
+            <a href="sale.html" class="nav-link">优惠</a>
+        </nav>
+        <div class="cart">
+            <a href="cart.html" class="cart-link">
+                <span class="cart-icon">🛒</span>
+                <span class="cart-count">0</span>
+            </a>
+        </div>
+        <div class="user-welcome" id="user-welcome">
+            <a href="login.html" class="login-link" id="login-link">登录</a>
+        </div>
+    </header>
+
+    <!-- 主要内容区域 -->
+    <main class="main-content">
+        <div class="login-container">
+            <div class="store-welcome">Welcome Goings Store</div>
+            <div class="login-form">
+                <h2>找回密码</h2>
+                
+                <div class="forgot-steps">
+                    <div class="step active" id="step1">
+                        <div class="step-number">1</div>
+                        <div class="step-text">验证身份</div>
+                    </div>
+                    <div class="step" id="step2">
+                        <div class="step-number">2</div>
+                        <div class="step-text">重置密码</div>
+                    </div>
+                    <div class="step" id="step3">
+                        <div class="step-number">3</div>
+                        <div class="step-text">完成</div>
+                    </div>
+                </div>
+                
+                <div class="form-container">
+                    <!-- 步骤1：验证身份 -->
+                    <div id="verify-identity" class="active">
+                        <div class="form-groups-container">
+                            <div class="form-group">
+                                <label for="username">用户名</label>
+                                <input type="text" id="username" name="username" placeholder="请输入用户名" required>
+                                <span class="error-text" id="username-error"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">主邮箱</label>
+                                <input type="email" id="email" name="email" placeholder="请输入注册时使用的主邮箱" required>
+                                <span class="error-text" id="email-error"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="backup-email">辅助邮箱</label>
+                                <input type="email" id="backup-email" name="backup-email" placeholder="请输入注册时填写的辅助邮箱" required>
+                                <span class="error-text" id="backup-email-error"></span>
+                            </div>
+                        </div>
+                        
+                        <div class="step-navigation">
+                            <button type="button" id="verify-btn" class="next-btn">下一步</button>
+                        </div>
+                    </div>
+                    
+                    <!-- 步骤2：重置密码 -->
+                    <div id="reset-password">
+                        <div class="form-groups-container">
+                            <div class="form-group">
+                                <label for="new-password">新密码</label>
+                                <input type="password" id="new-password" name="new-password" placeholder="请设置新密码" required>
+                                <span class="error-text" id="new-password-error"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="confirm-new-password">确认新密码</label>
+                                <input type="password" id="confirm-new-password" name="confirm-new-password" placeholder="请再次输入新密码" required>
+                                <span class="error-text" id="confirm-new-password-error"></span>
+                            </div>
+                        </div>
+                        
+                        <div class="step-navigation">
+                            <button type="button" id="back-to-verify" class="back-btn">返回上一步</button>
+                            <button type="button" id="reset-btn" class="submit-btn">重置密码</button>
+                        </div>
+                    </div>
+                    
+                    <!-- 步骤3：完成 -->
+                    <div id="complete">
+                        <div class="result-message">
+                            <div class="success-icon">✓</div>
+                            <p>密码重置成功！</p>
+                            <p>您现在可以使用新密码登录您的账户。</p>
+                        </div>
+                        
+                        <div class="step-navigation">
+                            <a href="login.html" class="reset-btn">前往登录</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="return-login-container">
+                <p class="return-login-guide"><a href="login.html" class="return-login-link">返回登录</a></p>
+            </div>
+        </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>关于我们</h3>
+                <p>公司简介</p>
+                <p>我们的使命</p>
+                <p>发展历程</p>
+            </div>
+            <div class="footer-section">
+                <h3>客户服务</h3>
+                <p>购物指南</p>
+                <p>配送方式</p>
+                <p>售后政策</p>
+                <p>支付方式</p>
+            </div>
+            <div class="footer-section">
+                <h3>联系我们</h3>
+                <p>客服热线: 400-123-4567</p>
+                <p>邮箱: service@shop.com</p>
+                <p>地址: 北京市朝阳区科技园</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Goings商城. 保留所有权利。</p>
+        </div>
+    </footer>
+
+    <script>
+        /**
+         * 找回密码功能模块
+         */
+        const ForgotPasswordManager = {
+            // DOM元素
+            elements: {
+                steps: {
+                    step1: null,
+                    step2: null,
+                    step3: null
+                },
+                formContainers: {
+                    verifyIdentity: null,
+                    resetPassword: null,
+                    complete: null
+                },
+                inputs: {
+                    username: null,
+                    email: null,
+                    backupEmail: null,
+                    newPassword: null,
+                    confirmNewPassword: null
+                },
+                errors: {
+                    username: null,
+                    email: null,
+                    backupEmail: null,
+                    newPassword: null,
+                    confirmNewPassword: null
+                },
+                buttons: {
+                    verifyBtn: null,
+                    backToVerifyBtn: null,
+                    resetBtn: null
+                }
+            },
+            
+            // 当前活动用户
+            currentUser: null,
+            
+            // 初始化
+            init: function() {
+                // 获取步骤元素
+                this.elements.steps.step1 = document.getElementById('step1');
+                this.elements.steps.step2 = document.getElementById('step2');
+                this.elements.steps.step3 = document.getElementById('step3');
+                
+                // 获取表单容器
+                this.elements.formContainers.verifyIdentity = document.getElementById('verify-identity');
+                this.elements.formContainers.resetPassword = document.getElementById('reset-password');
+                this.elements.formContainers.complete = document.getElementById('complete');
+                
+                // 获取输入字段
+                this.elements.inputs.username = document.getElementById('username');
+                this.elements.inputs.email = document.getElementById('email');
+                this.elements.inputs.backupEmail = document.getElementById('backup-email');
+                this.elements.inputs.newPassword = document.getElementById('new-password');
+                this.elements.inputs.confirmNewPassword = document.getElementById('confirm-new-password');
+                
+                // 获取错误提示元素
+                this.elements.errors.username = document.getElementById('username-error');
+                this.elements.errors.email = document.getElementById('email-error');
+                this.elements.errors.backupEmail = document.getElementById('backup-email-error');
+                this.elements.errors.newPassword = document.getElementById('new-password-error');
+                this.elements.errors.confirmNewPassword = document.getElementById('confirm-new-password-error');
+                
+                // 获取按钮
+                this.elements.buttons.verifyBtn = document.getElementById('verify-btn');
+                this.elements.buttons.backToVerifyBtn = document.getElementById('back-to-verify');
+                this.elements.buttons.resetBtn = document.getElementById('reset-btn');
+                
+                // 绑定事件
+                this.bindEvents();
+                
+                // 聚焦第一个输入框
+                this.elements.inputs.username.focus();
+            },
+            
+            // 绑定事件
+            bindEvents: function() {
+                // 验证按钮点击事件
+                this.elements.buttons.verifyBtn.addEventListener('click', this.handleVerifyIdentity.bind(this));
+                
+                // 返回验证步骤按钮点击事件
+                this.elements.buttons.backToVerifyBtn.addEventListener('click', this.goToStep.bind(this, 1));
+                
+                // 重置密码按钮点击事件
+                this.elements.buttons.resetBtn.addEventListener('click', this.handleResetPassword.bind(this));
+                
+                // 输入框事件监听
+                this.elements.inputs.username.addEventListener('input', () => {
+                    this.clearError('username');
+                });
+                
+                this.elements.inputs.email.addEventListener('input', () => {
+                    this.clearError('email');
+                });
+                
+                this.elements.inputs.backupEmail.addEventListener('input', () => {
+                    this.clearError('backupEmail');
+                });
+                
+                this.elements.inputs.newPassword.addEventListener('input', () => {
+                    this.clearError('newPassword');
+                    if (this.elements.inputs.confirmNewPassword.value.trim().length > 0) {
+                        this.validatePasswordMatch();
+                    }
+                });
+                
+                this.elements.inputs.confirmNewPassword.addEventListener('input', () => {
+                    this.validatePasswordMatch();
+                });
+            },
+            
+            // 切换到指定步骤
+            goToStep: function(stepNumber) {
+                // 更新步骤指示器
+                Object.values(this.elements.steps).forEach((step, index) => {
+                    if (index + 1 <= stepNumber) {
+                        step.classList.add('active');
+                    } else {
+                        step.classList.remove('active');
+                    }
+                });
+                
+                // 显示相应的表单
+                Object.values(this.elements.formContainers).forEach((container) => {
+                    container.classList.remove('active');
+                });
+                
+                switch (stepNumber) {
+                    case 1:
+                        this.elements.formContainers.verifyIdentity.classList.add('active');
+                        this.elements.inputs.username.focus();
+                        break;
+                    case 2:
+                        this.elements.formContainers.resetPassword.classList.add('active');
+                        this.elements.inputs.newPassword.focus();
+                        break;
+                    case 3:
+                        this.elements.formContainers.complete.classList.add('active');
+                        break;
+                }
+            },
+            
+            // 显示错误信息
+            showError: function(field, message) {
+                this.elements.errors[field].textContent = message;
+                this.elements.inputs[field].classList.add('input-error');
+            },
+            
+            // 清除错误信息
+            clearError: function(field) {
+                this.elements.errors[field].textContent = '';
+                this.elements.inputs[field].classList.remove('input-error');
+            },
+            
+            // 清除所有错误信息
+            clearAllErrors: function() {
+                Object.keys(this.elements.errors).forEach(field => {
+                    this.clearError(field);
+                });
+            },
+            
+            // 验证密码匹配
+            validatePasswordMatch: function() {
+                const newPassword = this.elements.inputs.newPassword.value;
+                const confirmNewPassword = this.elements.inputs.confirmNewPassword.value;
+                
+                this.clearError('confirmNewPassword');
+                
+                if (confirmNewPassword !== '' && newPassword !== confirmNewPassword) {
+                    this.showError('confirmNewPassword', '两次输入的密码不一致');
+                    return false;
+                }
+                
+                return true;
+            },
+            
+            // 验证身份处理
+            handleVerifyIdentity: function() {
+                this.clearAllErrors();
+                
+                const username = this.elements.inputs.username.value.trim();
+                const email = this.elements.inputs.email.value.trim();
+                const backupEmail = this.elements.inputs.backupEmail.value.trim();
+                
+                // 验证用户名不能为空
+                if (username === '') {
+                    this.showError('username', '请输入用户名');
+                    return;
+                }
+                
+                // 验证主邮箱不能为空
+                if (email === '') {
+                    this.showError('email', '请输入主邮箱');
+                    return;
+                }
+                
+                // 验证辅助邮箱不能为空
+                if (backupEmail === '') {
+                    this.showError('backupEmail', '请输入辅助邮箱');
+                    return;
+                }
+                
+                // 从本地存储获取用户信息
+                const userData = localStorage.getItem(username);
+                
+                if (!userData) {
+                    this.showError('username', '该用户不存在');
+                    return;
+                }
+                
+                try {
+                    const user = JSON.parse(userData);
+                    
+                    if (user.email !== email) {
+                        this.showError('email', '主邮箱与注册信息不匹配');
+                        return;
+                    }
+                    
+                    if (!user.backupEmail) {
+                        this.showError('backupEmail', '此用户未设置辅助邮箱，无法通过此方式找回密码');
+                        return;
+                    }
+                    
+                    if (user.backupEmail !== backupEmail) {
+                        this.showError('backupEmail', '辅助邮箱与注册信息不匹配');
+                        return;
+                    }
+                    
+                    // 验证通过，保存当前用户并前进到下一步
+                    this.currentUser = {
+                        username: username,
+                        email: email,
+                        backupEmail: backupEmail
+                    };
+                    
+                    this.goToStep(2);
+                    
+                } catch (e) {
+                    this.showError('username', '获取用户信息失败，请重试');
+                    console.error('解析用户数据出错:', e);
+                }
+            },
+            
+            // 重置密码处理
+            handleResetPassword: function() {
+                this.clearAllErrors();
+                
+                const newPassword = this.elements.inputs.newPassword.value;
+                const confirmNewPassword = this.elements.inputs.confirmNewPassword.value;
+                
+                // 验证新密码非空
+                if (newPassword === '') {
+                    this.showError('newPassword', '请输入新密码');
+                    return;
+                }
+                
+                // 验证新密码长度
+                if (newPassword.length < 6) {
+                    this.showError('newPassword', '密码长度不能少于6个字符');
+                    return;
+                }
+                
+                // 验证确认密码非空
+                if (confirmNewPassword === '') {
+                    this.showError('confirmNewPassword', '请确认新密码');
+                    return;
+                }
+                
+                // 验证两次密码一致
+                if (newPassword !== confirmNewPassword) {
+                    this.showError('confirmNewPassword', '两次输入的密码不一致');
+                    return;
+                }
+                
+                // 获取当前用户数据
+                if (!this.currentUser || !this.currentUser.username) {
+                    alert('系统错误，请重新开始找回密码流程');
+                    this.goToStep(1);
+                    return;
+                }
+                
+                // 从本地存储获取完整用户信息
+                const userData = localStorage.getItem(this.currentUser.username);
+                
+                if (!userData) {
+                    alert('用户信息丢失，请重新开始找回密码流程');
+                    this.goToStep(1);
+                    return;
+                }
+                
+                try {
+                    const user = JSON.parse(userData);
+                    
+                    // 模拟更新密码（在实际应用中，这里应该调用API来更新密码）
+                    // 由于密码在真实环境会存储在后端，这里我们模拟一个客户端保存用户信息
+                    localStorage.setItem('passwordResetSuccess', 'true');
+                    
+                    // 更新成功，前进到最后一步
+                    this.goToStep(3);
+                    
+                } catch (e) {
+                    alert('更新密码失败，请重试');
+                    console.error('更新密码出错:', e);
+                }
+            }
+        };
+        
+        // 页面加载完成后初始化找回密码模块
+        document.addEventListener('DOMContentLoaded', function() {
+            ForgotPasswordManager.init();
+        });
+    </script>
+</body>
+</html> 

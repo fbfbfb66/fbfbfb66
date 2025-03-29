@@ -1,0 +1,631 @@
+/* 个人中心页面样式 */
+.user-page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.user-page .main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    padding: 2rem;
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    align-items: flex-start;
+}
+
+/* 左侧菜单样式 */
+.user-sidebar {
+    width: 200px;
+    min-width: 200px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+    height: fit-content;
+    position: sticky;
+    top: 2rem;
+}
+
+.user-sidebar h2 {
+    font-size: 1.3rem;
+    color: #2c3e50;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.8rem;
+    border-bottom: 1px solid #eee;
+}
+
+.user-menu {
+    list-style: none;
+    padding: 0;
+}
+
+.user-menu-item {
+    margin-bottom: 0.8rem;
+}
+
+.user-menu-link {
+    display: block;
+    padding: 0.8rem 1rem;
+    color: #333;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.user-menu-link:hover {
+    background-color: #ebf5fb;
+    color: #3498db;
+}
+
+.user-menu-link.active {
+    background-color: #3498db;
+    color: white;
+    font-weight: 500;
+}
+
+/* 右侧内容区域样式 */
+.user-content {
+    flex: 1;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    min-height: 500px;
+}
+
+.content-section {
+    display: none;
+}
+
+.content-section.active {
+    display: block;
+}
+
+.content-section h3 {
+    font-size: 1.5rem;
+    color: #2c3e50;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.8rem;
+    border-bottom: 1px solid #eee;
+}
+
+/* 个人信息模块样式 */
+.user-info-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    width: 100%;
+}
+
+.user-welcome {
+    font-size: 1.2rem;
+    color: #333;
+    margin-bottom: 1rem;
+}
+
+.user-welcome .username {
+    font-weight: 600;
+    color: #3498db;
+}
+
+.profile-card {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    width: 100%;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.profile-item {
+    display: flex;
+    margin-bottom: 1rem;
+    padding-right: 2rem;
+}
+
+.profile-label {
+    width: 120px;
+    font-weight: 500;
+    color: #555;
+}
+
+.profile-value {
+    flex: 1;
+    color: #333;
+}
+
+/* 退出登录按钮 */
+.logout-button {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 0.8rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+    width: 100%;
+}
+
+.logout-button:hover {
+    background-color: #c0392b;
+}
+
+/* 商品链接样式 */
+.product-link {
+    color: inherit;
+    text-decoration: none;
+    display: block;
+}
+
+.product-link:hover .order-product-name,
+.product-link:hover .favorite-name {
+    color: #3498db;
+    text-decoration: underline;
+}
+
+.order-product .product-link {
+    display: flex;
+    align-items: center;
+}
+
+/* 订单列表样式 */
+.orders-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.order-item {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.order-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    background-color: #f1f1f1;
+    border-bottom: 1px solid #e1e1e1;
+}
+
+.order-id {
+    font-weight: 500;
+    color: #333;
+}
+
+.order-date {
+    color: #666;
+}
+
+.order-status {
+    font-weight: 500;
+}
+
+.status-completed {
+    color: #2ecc71;
+}
+
+.status-pending {
+    color: #f39c12;
+}
+
+.status-shipped {
+    color: #3498db;
+}
+
+.order-content {
+    padding: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.order-product {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.order-product-img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.order-product-name {
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+.order-product-price {
+    color: #e74c3c;
+    font-weight: 500;
+}
+
+.order-actions {
+    display: flex;
+    gap: 0.8rem;
+}
+
+/* 收藏商品样式 */
+.favorites-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+.favorite-item {
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.favorite-item:hover {
+    transform: translateY(-5px);
+}
+
+.favorite-product {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.favorite-img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+}
+
+.favorite-info {
+    padding: 1rem;
+    background-color: #f8f9fa;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.favorite-name {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+    color: #333;
+}
+
+.favorite-price {
+    color: #e74c3c;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+.favorite-desc {
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+    flex-grow: 1;
+}
+
+.favorite-actions {
+    display: flex;
+    padding: 1rem;
+    background-color: #f8f9fa;
+    border-top: 1px solid #eee;
+    justify-content: center;
+}
+
+.favorite-actions .btn {
+    width: 100%;
+    text-align: center;
+    padding: 0.6rem 0.5rem;
+    font-size: 0.9rem;
+}
+
+/* 地址管理样式 */
+.address-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.address-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 1rem;
+}
+
+.address-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.address-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.address-header {
+    margin-bottom: 0.8rem;
+}
+
+.address-name {
+    font-weight: 500;
+    margin-right: 1rem;
+}
+
+.address-phone {
+    color: #666;
+}
+
+.address-default {
+    background-color: #3498db;
+    color: white;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    margin-left: 1rem;
+}
+
+.address-detail {
+    color: #555;
+}
+
+.address-options {
+    display: flex;
+    gap: 0.8rem;
+}
+
+/* 地址弹窗样式 */
+.address-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+}
+
+.address-modal.show {
+    display: flex;
+}
+
+.address-modal-content {
+    background-color: #fff;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.address-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem;
+    border-bottom: 1px solid #eee;
+}
+
+.address-modal-close {
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #666;
+}
+
+.address-modal-body {
+    padding: 1.5rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: #333;
+}
+
+.form-control {
+    width: 100%;
+    padding: 0.8rem;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    font-size: 1rem;
+}
+
+.form-check {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.form-check-input {
+    margin-right: 0.5rem;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+}
+
+/* 修改密码样式 */
+.password-container {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.form-text {
+    color: #666;
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+    display: block;
+}
+
+.password-message {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    border-radius: 4px;
+    display: none;
+}
+
+.password-message.success {
+    display: block;
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.password-message.error {
+    display: block;
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+/* 通用按钮样式 */
+.btn {
+    padding: 0.6rem 1.2rem;
+    border-radius: 4px;
+    cursor: pointer;
+    border: none;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+}
+
+.btn-sm {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.85rem;
+}
+
+.btn-primary {
+    background-color: #3498db;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #2980b9;
+}
+
+.btn-danger {
+    background-color: #e74c3c;
+    color: white;
+}
+
+.btn-danger:hover {
+    background-color: #c0392b;
+}
+
+.btn-secondary {
+    background-color: #7f8c8d;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: #6c7a7a;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .user-page .main-content {
+        flex-direction: column;
+        padding: 1rem;
+        gap: 20px;
+    }
+
+    .user-sidebar {
+        width: 100%;
+        min-width: 100%;
+        position: static;
+    }
+
+    .user-content {
+        width: 100%;
+    }
+    
+    .order-content {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .order-actions {
+        margin-top: 1rem;
+        width: 100%;
+        justify-content: space-between;
+    }
+    
+    .favorites-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .address-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .address-options {
+        margin-top: 1rem;
+        align-self: flex-end;
+    }
+}
+
+/* 导航栏特殊样式 - 仅用于user.html */
+.user-info-special {
+    font-family: 'Segoe Script', 'Brush Script MT', cursive;
+    font-size: 1.1rem;
+    color: #3498db;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    text-shadow: 0.5px 0.5px 1px rgba(0, 0, 0, 0.1);
+}
+
+/* 调整导航栏位置 - 仅用于user.html */
+.user-page .navbar .cart {
+    margin-left: 0;
+}
+
+.user-page .navbar .user-welcome {
+    margin-left: auto;
+    margin-right: 1rem;
+}
+
+/* 感谢信息样式 */
+.thanks-message {
+    text-align: center;
+    padding: 3rem 0;
+    margin: 2rem 0;
+}
+
+.thanks-message p {
+    font-size: 1.8rem;
+    color: #626262;
+    font-family: 'Georgia', serif;
+    letter-spacing: 1px;
+    font-style: italic;
+}
+
+.thanks-message span {
+    color: #3498db;
+    font-weight: 600;
+    font-family: 'Segoe Script', 'Brush Script MT', cursive;
+} 
